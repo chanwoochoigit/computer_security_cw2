@@ -13,30 +13,32 @@ def crack_sha1(file):
         sha1_salts.append(line[-51:-41])
 
 
-    sha1ed_passwords = {}
+    sha1ed_passwords_dic = {}
     cracked_sha1 = []
-
 
     for password in common_passwords:
         print(password)
         for salt in sha1_salts:
-            sha1ed_passwords.update({hashlib.sha1((salt+password).encode()).hexdigest(): password})
+            sha1ed_passwords_dic.update({hashlib.sha1((salt+password).encode()).hexdigest(): password})
 
     for hash in sha1_hashvalues:
-        #if sha1ed_passwords.get(hash) is not None:
-        cracked_sha1.append(sha1ed_passwords.get(hash))
+        if sha1ed_passwords_dic.get(hash) is not None:
+            cracked_sha1.append(sha1ed_passwords_dic.get(hash))
 
     output = ''
 
+    print("cracked_sha1 length: "+str(len(cracked_sha1)))
+    frequency_count = 0
     for c in common_passwords:
         print(c)
         wordcount = 0
         for w in cracked_sha1:
             if c == w:
                 wordcount += 1
+                frequency_count += 1
         output += str(wordcount) + "," + c + "\n"
 
-    print(output)
+    print(str(frequency_count / len(cracked_sha1) * 100) +"%")
     print("output done!")
     return output
 
