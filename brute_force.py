@@ -24,8 +24,13 @@ def brute_force(lines):
     print(len(hashvalues))
     print(cracked_md5_words)
 
+    no_duplicates = []
+    for value in cracked_md5_words:
+        if value not in no_duplicates:
+            no_duplicates.append(value)
+
     output = ''
-    for w1 in cracked_md5_words:
+    for w1 in no_duplicates:
         print(w1)
         wordcount = 0
         for w2 in cracked_md5_words:
